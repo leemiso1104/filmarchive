@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Miso's Film Review Archive</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Edu+VIC+WA+NT+Beginner:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Pretendard:wght@400;600;800&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Pretendard', sans-serif;
+      background-image: url('Decision.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      transition: filter 0.3s ease;
+    }
+
+    .blur {
+      filter: blur(2px) brightness(0.7);
+    }
+
+    .text-container {
+      z-index: 1;
+      position: relative;
+      filter: none !important;
+    }
+
+    .main-title {
+      font-size: 2vw;
+      font-weight: 700;
+      color: #fff;
+      margin: 10px 0;
+      text-align: center;
+      font-family: 'Edu VIC WA NT Beginner', cursive;
+      user-select: none; /* 텍스트 선택 방지 */
+    }
+
+    .sub-title {
+      font-size: 1.8vw;
+      font-weight: 500;
+      color: #ddd;
+      margin: 0 0 15px;
+      text-align: center;
+      font-family: 'Noto Serif KR', serif;
+      user-select: none; /* 텍스트 선택 방지 */
+    }
+
+    .header {
+      width: 100%;
+      text-align: center;
+      padding: 10px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      user-select: none; /* 텍스트 선택 방지 */
+    }
+
+    .button {
+      background-color: #444;
+      color: #fff;
+      border: none;
+      padding: 5px 15px;
+      font-size: 0.8vw;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      user-select: none; /* 텍스트 선택 방지 */
+    }
+
+    .button:hover {
+      background-color: #666;
+      transform: scale(1.1);
+      user-select: none; /* 텍스트 선택 방지 */
+    }
+
+    .line {
+      font-size: 1.5vw;
+      font-weight: 400;
+      line-height: 1.5;
+      margin: 0;
+      transition: transform 0.2s ease, font-size 0.2s ease, font-weight 0.2s ease;
+      user-select: none; /* 텍스트 선택 방지 */
+    }
+
+    .footer {
+      font-size: 1.5vw;
+      color: #aaa;
+      text-align: center;
+      margin: 15px 0;
+      user-select: none; /* 텍스트 선택 방지 */
+    }
+
+    @media (max-width: 768px) {
+      .line {
+        font-size: 4vw;
+      }
+      .main-title, .sub-title {
+        font-size: 5vw;
+      }
+      .button {
+        font-size: 3vw;
+      }
+      .footer {
+        font-size: 4vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-title">Miso's Film Review Archive</div>
+  <div class="sub-title">헤어질결심</div>
+
+  <div class="header">
+    <button class="button" id="toggleFontButton">서체 변경</button>
+    <button class="button" id="toggleWeightButton">굵기 변경</button>
+    <button class="button" id="colorToggleButton">색상 변경</button>
+    <button class="button" id="learnMoreButton">더 알아보기</button>
+    <button class="button music-button" id="beatAnimationToggle">비트에 맞기기</button>
+    <button class="button" id="resetButton">처음으로</button>
+  </div>
+
+  <div class="text-container" id="textContainer"></div>
+
+  <div class="footer">마우스를 드래그 해 봐!</div>
+
+  <!-- 왼쪽 삼각형 버튼 -->
+<div class="nav-button left" id="prevReview">◁</div>
+
+<!-- 오른쪽 삼각형 버튼 -->
+<div class="nav-bu
+tton right" id="nextReview">▷</div>
+
+
+  <audio id="backgroundMusic" src="Decision.mp3" loop></audio>
+
+  <script>
+    const text = "해준은 서래와 관련된 미결 사건을 파헤치며 의심으로 시작하지만 점점 알 수 없는 사랑으로 변하며 서래와 해준의 사이가 결국 미결로 남는다. 순애적이면서도 찝찝한 마음이 공존하게 되는 기묘한 이야기의 영화다.";
+    const container = document.getElementById("textContainer");
+    const backgroundMusic = document.getElementById("backgroundMusic");
+    const beatAnimationToggle = document.getElementById("beatAnimationToggle");
+    const resetButton = document.getElementById("resetButton");
+    const body = document.body;
+
+    let isMusicPlaying = false;
+    let isBeatAnimationActive = false;
+
+    const splitTextRandomly = (text, min, max) => {
+      const lines = [];
+      while (text.length > 0) {
+        const length = Math.floor(Math.random() * (max - min + 1)) + min;
+        lines.push(text.slice(0, length));
+        text = text.slice(length);
+      }
+      return lines;
+    };
+
+    const renderText = () => {
+      const lines = splitTextRandomly(text, 12, 20);
+      container.innerHTML = '';
+      lines.forEach((line) => {
+        const p = document.createElement("p");
+        p.classList.add("line");
+        p.textContent = line;
+        container.appendChild(p);
+      });
+    };
+
+    let isColorChangeActive = false;
+let isDraggingForColor = false;
+
+function getRandomColor() {
+  return `hsl(${Math.random() * 360}, 70%, 80%)`; // 부드러운 파스텔 톤
+}
+
+colorToggleButton.addEventListener("click", () => {
+  if (isColorChangeActive) {
+    isColorChangeActive = false;
+    colorToggleButton.textContent = "색상 변경";
+    document.querySelectorAll(".line").forEach(line => {
+      line.style.color = ""; // 색상을 기본으로 복원
+    });
+  } else {
+    isColorChangeActive = true;
+    colorToggleButton.textContent = "색상 중지";
+  }
+});
+
+document.addEventListener("mousedown", () => {
+  if (isColorChangeActive) {
+    isDraggingForColor = true;
+  }
+});
+
+document.addEventListener("mouseup", () => {
+  isDraggingForColor = false;
+});
+
+document.addEventListener("mousemove", () => {
+  if (isDraggingForColor && isColorChangeActive) {
+    const newColor = getRandomColor();
+    document.querySelectorAll(".line").forEach(line => {
+      line.style.color = newColor; // 전체 텍스트에 동일한 색상 적용
+    });
+  }
+});
+
+
+    renderText();
+
+    beatAnimationToggle.addEventListener("click", () => {
+      if (isMusicPlaying) {
+        backgroundMusic.pause();
+        beatAnimationToggle.textContent = "비트에 맞기기";
+        isMusicPlaying = false;
+        isBeatAnimationActive = false;
+        stopBeatAnimation();
+      } else {
+        backgroundMusic.play();
+        beatAnimationToggle.textContent = "비트 중지";
+        isMusicPlaying = true;
+        isBeatAnimationActive = true;
+        startBeatAnimation();
+      }
+    });
+
+    resetButton.addEventListener("click", () => {
+      location.reload();
+    });
+
+    let isSerif = false;
+    const toggleFontButton = document.getElementById("toggleFontButton");
+    toggleFontButton.addEventListener("click", () => {
+      isSerif = !isSerif;
+      document.body.style.fontFamily = isSerif ? "'Noto Serif KR', serif" : "'Pretendard', sans-serif";
+    });
+
+    const toggleWeightButton = document.getElementById("toggleWeightButton");
+    let currentWeightIndex = 0;
+    const weightSteps = { serif: [300, 500, 700], sansSerif: [400, 600, 800] };
+
+    toggleWeightButton.addEventListener("click", () => {
+      currentWeightIndex = (currentWeightIndex + 1) % 3;
+      const weights = isSerif ? weightSteps.serif : weightSteps.sansSerif;
+      document.querySelectorAll(".line").forEach((line) => {
+        line.style.fontWeight = weights[currentWeightIndex];
+      });
+    });
+
+    let isDragging = false;
+
+    document.addEventListener("mousedown", () => {
+      isDragging = true;
+      body.classList.add("blur");
+    });
+
+    document.addEventListener("mouseup", () => {
+      isDragging = false;
+      body.classList.remove("blur");
+    });
+
+    document.addEventListener("mousemove", (event) => {
+      if (!isDragging) return;
+
+        document.getElementById("prevReview").addEventListener("click", () => {
+  // 이전 리뷰 페이지로 이동 (예: review1.html)
+  window.location.href = "review7.html";
+});
+
+document.getElementById("nextReview").addEventListener("click", () => {
+  // 다음 리뷰 페이지로 이동 (예: review3.html)
+  window.location.href = "review9.html";
+});
+
+
+
+      const mouseX = event.clientX;
+      const mouseY = event.clientY;
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+
+      const lines = document.querySelectorAll(".line");
+      const totalLines = lines.length;
+
+      lines.forEach((line, index) => {
+        const progress = index / totalLines;
+
+        // 대각선으로 변형
+        const offsetX = (mouseX / screenWidth - 0.5) * 200 * progress;
+        const offsetY = (mouseY / screenHeight - 0.5) * 100 * progress;
+        line.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+
+        // 글자 크기 조절
+        if (mouseY < screenHeight / 2) {
+          const scaleUp = 2 - progress;
+          line.style.fontSize = `${Math.max(1, scaleUp * 2)}vw`;
+        } else {
+          const scaleDown = progress + 1;
+          line.style.fontSize = `${Math.max(1, scaleDown * 2)}vw`;
+        }
+
+        // 줄바꿈 랜덤화
+        if (Math.random() > 0.8) {
+          line.textContent = line.textContent.slice(0, Math.floor(line.textContent.length / 2)) + '\n' + line.textContent.slice(Math.floor(line.textContent.length / 2));
+        }
+      });
+    });
+
+    function startBeatAnimation() {
+      const lines = document.querySelectorAll(".line");
+      lines.forEach((line) => {
+        line.style.transition = 'transform 0.2s ease-in-out';
+        setInterval(() => {
+          if (isBeatAnimationActive) {
+            line.style.transform = 'translateY(0)';
+            setTimeout(() => {
+              line.style.transform = `translateY(${Math.random() * 5}px)`;
+            }, 100);
+          }
+        }, 500);
+      });
+    }
+
+    function stopBeatAnimation() {
+      const lines = document.querySelectorAll(".line");
+      lines.forEach((line) => {
+        line.style.transition = 'none';
+        line.style.transform = 'translateY(0)';
+      });
+    }
+
+    const learnMoreButton = document.getElementById("learnMoreButton");
+
+  learnMoreButton.addEventListener("click", () => {
+    // 유튜브 링크로 이동
+    window.location.href = "https://www.youtube.com/watch?v=i50tT8n9fp8"; 
+  });
+
+  </script>
+</body>
+</html>

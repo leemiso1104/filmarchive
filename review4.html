@@ -8,51 +8,87 @@
     @import url('https://fonts.googleapis.com/css2?family=Edu+VIC+WA+NT+Beginner:wght@400;500;600;700&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Pretendard:wght@400;600;800&display=swap');
 
-    body {
-      margin: 0;
-      font-family: 'Pretendard', sans-serif;
-      background-image: url('monster.jpeg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-      transition: filter 0.3s ease;
+   body {
+  margin: 0;
+  font-family: 'Pretendard', sans-serif;
+  background-image: url('monster.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  transition: filter 0.3s ease;
+  position: relative; /* body에 relative 추가 */
+}
+
+.nav-button {
+  position: absolute; /* 화면 전체를 기준으로 절대 위치 */
+  top: 50%; /* 화면의 세로 가운데 */
+  transform: translateY(-50%); /* 세로 가운데 정렬 */
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: white;
+}
+
+.nav-button.left {
+  left: 20px; /* 화면 왼쪽 사이드에 배치 */
+}
+
+.nav-button.right {
+  right: 20px; /* 화면 오른쪽 사이드에 배치 */
+}
+ .nav-button.svg {
+      width: 24px;
+      height: 24px;
+      fill: white;
     }
 
     .blur {
       filter: blur(2px) brightness(0.7);
+      user-select: none; /* 텍스트 선택 방지 */
     }
 
     .text-container {
       z-index: 1;
       position: relative;
       filter: none !important;
+      user-select: none; /* 텍스트 선택 방지 */
     }
 
     .main-title {
-      font-size: 2vw;
-      font-weight: 700;
-      color: #fff;
-      margin: 10px 0;
-      text-align: center;
-      font-family: 'Edu VIC WA NT Beginner', cursive;
-      user-select: none; /* 텍스트 선택 방지 */
-    }
+  font-size: 1.5vw;
+  font-weight: 700;
+  color: #fff;
+  margin: 10px 0;
+  text-align: left; /* 텍스트를 왼쪽 정렬 */
+  font-family: 'Edu VIC WA NT Beginner', cursive;
+  user-select: none; /* 텍스트 선택 방지 */
+  position: absolute; /* 절대 위치 */
+  left: 20px; /* 왼쪽으로 20px 여백 */
+  top: 0px; /* 상단으로 20px 여백 */
+}
 
-    .sub-title {
-      font-size: 1.8vw;
-      font-weight: 500;
-      color: #ddd;
-      margin: 0 0 15px;
-      text-align: center;
-      font-family: 'Noto Serif KR', serif;
-      user-select: none; /* 텍스트 선택 방지 */
-    }
+   .sub-title {
+  font-size: 1.8vw;
+  font-weight: 500;
+  color: #fff;
+  margin: 10px 0 15px; /* 상단 마진을 20px로 추가 */
+  text-align: center;
+  font-family: 'Noto Serif KR', serif;
+  user-select: none; /* 텍스트 선택 방지 */
+}
+
 
     .header {
       width: 100%;
@@ -85,21 +121,26 @@
     }
 
     .line {
-      font-size: 1.5vw;
-      font-weight: 400;
-      line-height: 1.5;
-      margin: 0;
-      transition: transform 0.2s ease, font-size 0.2s ease, font-weight 0.2s ease;
-      user-select: none; /* 텍스트 선택 방지 */
-    }
+  font-size: 1.5vw;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0;
+  transition: transform 0.2s ease, font-size 0.2s ease, font-weight 0.2s ease;
+  user-select: none; /* 텍스트 선택 방지 */
+  text-shadow: 0px 0px 4px black;
+}
 
-    .footer {
-      font-size: 1.5vw;
-      color: #aaa;
-      text-align: center;
-      margin: 15px 0;
-      user-select: none; /* 텍스트 선택 방지 */
-    }
+   .footer {
+  font-size: 1.5vw;
+  color: #fff;
+  text-align: center;
+  margin: 15px 0;
+  user-select: none; /* 텍스트 선택 방지 */
+  position: absolute; /* 절대 위치 */
+  bottom: 0; /* 하단에 배치 */
+  width: 100%; /* 전체 너비를 차지 */
+  padding: 10px 0; /* 위아래 여백 추가 */
+}
 
     @media (max-width: 768px) {
       .line {
@@ -114,6 +155,15 @@
       .footer {
         font-size: 4vw;
       }
+      
+.text-container {
+  position: relative; /* 버튼 위치를 본문 기준으로 설정 */
+  margin: 0 auto;
+  width: 80%; /* 본문 너비를 80%로 확대 */
+  text-align: center; /* 본문 정렬 */
+  user-select: none; /* 텍스트 선택 방지 */
+}
+
     }
   </style>
 </head>
@@ -134,18 +184,24 @@
 
   <div class="footer">마우스를 드래그 해 봐!</div>
 
-  <!-- 왼쪽 삼각형 버튼 -->
-<div class="nav-button left" id="prevReview">◁</div>
+<!-- 왼쪽 삼각형 버튼 -->
+<div class="nav-button left" id="prevReview">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px">
+    <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/>
+  </svg>
+</div>
 
 <!-- 오른쪽 삼각형 버튼 -->
-<div class="nav-bu
-tton right" id="nextReview">▷</div>
-
+<div class="nav-button right" id="nextReview">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px">
+    <path d="M8.59 16.59L13.17 12l-4.58-4.59L10 6l6 6-6 6z"/>
+  </svg>
+</div>
 
   <audio id="backgroundMusic" src="monster.mp3" loop></audio>
 
   <script>
-    const text = "누가 괴물인가? 영화는 내가 은연중에 가지고 있던 모든 편견들을 다 깨부숴버린다. 잔잔하지만 그 안에 강한 파도같은 힘을 가지고 있는 영화다. 나오는 아이들도 너무 귀엽고 연기를 잘한다. 아직 보지 않은 이에게 꼭 추천해주고 싶다. ";
+    const text = "누가 괴물인가? 영화는 내가 은연중에 가지고 있던 모든 편견들을 다 깨부숴버린다. 잔잔하지만 그 안에 강한 파도같은 힘을 가지고 있는 영화다. 나오는 아이들도 너무 귀엽고 연기를 잘한다. 아직 보지 않은 이에게 꼭 추천해주고 싶다.";
     const container = document.getElementById("textContainer");
     const backgroundMusic = document.getElementById("backgroundMusic");
     const beatAnimationToggle = document.getElementById("beatAnimationToggle");
@@ -166,7 +222,7 @@ tton right" id="nextReview">▷</div>
     };
 
     const renderText = () => {
-      const lines = splitTextRandomly(text, 14, 20);
+      const lines = splitTextRandomly(text, 10, 16);
       container.innerHTML = '';
       lines.forEach((line) => {
         const p = document.createElement("p");
@@ -175,7 +231,7 @@ tton right" id="nextReview">▷</div>
         container.appendChild(p);
       });
     };
-
+    
     let isColorChangeActive = false;
 let isDraggingForColor = false;
 
@@ -214,7 +270,6 @@ document.addEventListener("mousemove", () => {
     });
   }
 });
-
 
     renderText();
 
@@ -272,17 +327,9 @@ document.addEventListener("mousemove", () => {
     document.addEventListener("mousemove", (event) => {
       if (!isDragging) return;
 
-        document.getElementById("prevReview").addEventListener("click", () => {
-  // 이전 리뷰 페이지로 이동 (예: review1.html)
-  window.location.href = "review3.html";
+      document.addEventListener("mousedown", () => {
+  customCursor.style.backgroundColor = getRandomColor();
 });
-
-document.getElementById("nextReview").addEventListener("click", () => {
-  // 다음 리뷰 페이지로 이동 (예: review3.html)
-  window.location.href = "review5.html";
-});
-
-
 
       const mouseX = event.clientX;
       const mouseY = event.clientY;
@@ -296,16 +343,16 @@ document.getElementById("nextReview").addEventListener("click", () => {
         const progress = index / totalLines;
 
         // 대각선으로 변형
-        const offsetX = (mouseX / screenWidth - 0.5) * 200 * progress;
-        const offsetY = (mouseY / screenHeight - 0.5) * 100 * progress;
+        const offsetX = (mouseX / screenWidth - 0.5) * 400 * (progress * 1.5);
+        const offsetY = (mouseY / screenHeight - 0.5) * 200 * (progress * 1.5);
         line.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
 
-        // 글자 크기 조절
+        // 글자 크기 조절 
         if (mouseY < screenHeight / 2) {
           const scaleUp = 2 - progress;
           line.style.fontSize = `${Math.max(1, scaleUp * 2)}vw`;
         } else {
-          const scaleDown = progress + 1;
+          const scaleDown = progress + 0.9;
           line.style.fontSize = `${Math.max(1, scaleDown * 2)}vw`;
         }
 
@@ -319,7 +366,7 @@ document.getElementById("nextReview").addEventListener("click", () => {
     function startBeatAnimation() {
       const lines = document.querySelectorAll(".line");
       lines.forEach((line) => {
-        line.style.transition = 'transform 0.2s ease-in-out';
+        line.style.transition = 'transform 0s ease-in-out';
         setInterval(() => {
           if (isBeatAnimationActive) {
             line.style.transform = 'translateY(0)';
@@ -339,12 +386,20 @@ document.getElementById("nextReview").addEventListener("click", () => {
       });
     }
 
-    const learnMoreButton = document.getElementById("learnMoreButton");
+    const learnMoreButton = document.getElementById("learnMoreButton"); 
 
-  learnMoreButton.addEventListener("click", () => {
-    // 유튜브 링크로 이동
-    window.location.href = "https://www.youtube.com/watch?v=BHaPyxWrP_g"; 
+    learnMoreButton.addEventListener("click", () => {
+  // 새 창에서 링크 열기
+  window.open("https://www.youtube.com/watch?v=BHaPyxWrP_g", "_blank");
   });
+
+document.getElementById("prevReview").addEventListener("click", () => {
+  window.location.href = "review3.html";
+});
+
+document.getElementById("nextReview").addEventListener("click", () => {
+  window.location.href = "review5.html";
+});
 
   </script>
 </body>
